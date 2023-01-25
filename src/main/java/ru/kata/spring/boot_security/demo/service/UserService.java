@@ -44,14 +44,23 @@ public class UserService implements UserDetailsService {
     }
 
 
+//    @Transactional
+//    public void updateUser(User user, Set<Role> roles, int id) {
+//        User userFromDb = getUserById(user.getId());
+//        if (!userFromDb.getPassword().equals(user.getPassword())) {
+//            user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        }
+//        user.setId(id);
+//        saveUser(user, roles);
+//    }
+
     @Transactional
-    public void updateUser(User user, Set<Role> roles, int id) {
+    public void updateUser(User user) {
         User userFromDb = getUserById(user.getId());
         if (!userFromDb.getPassword().equals(user.getPassword())) {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
-        user.setId(id);
-        saveUser(user, roles);
+        userRepository.save(user);
     }
 
     public List<Role> listRoles() {
@@ -66,12 +75,18 @@ public class UserService implements UserDetailsService {
         return userRepository.findAll();
     }
 
+//    @Transactional
+//    public void saveUser(User user, Set<Role> roles) {
+//        user.setRoles(roles);
+//        roles.forEach(s -> s.setUsers(new HashSet<>(Collections.singleton(user))));
+//        user.setPassword(passwordEncoder.encode(user.getPassword()));
+//        roleRepository.saveAll(roles);
+//        userRepository.save(user);
+//    }
+
     @Transactional
-    public void saveUser(User user, Set<Role> roles) {
-        user.setRoles(roles);
-        roles.forEach(s -> s.setUsers(new HashSet<>(Collections.singleton(user))));
+    public void saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        roleRepository.saveAll(roles);
         userRepository.save(user);
     }
 

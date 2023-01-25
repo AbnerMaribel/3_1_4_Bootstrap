@@ -34,7 +34,7 @@ public class AdminController {
 
     @PutMapping("/edit/{id}")
     public String update(@ModelAttribute("user") User user, @PathVariable("id") int id, @RequestParam("roles") Set<Role> roles){
-        userService.updateUser(user, roles, id);
+        userService.updateUser(user);
         System.out.println(user.getUsername());
         return "redirect:/admin";
     }
@@ -47,7 +47,7 @@ public class AdminController {
 
     @PostMapping("/new")
     public String create(@ModelAttribute("user")User user, @RequestParam Set<Role> roles) {
-        userService.saveUser(user, roles);
+        userService.saveUser(user);
         return "redirect:/admin";
     }
 }
